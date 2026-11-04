@@ -35,7 +35,7 @@ export default function Navbar({
       {/* Top Black Announcement Banner */}
       <div className="bg-black text-white px-6 py-2.5 text-center text-xs tracking-widest uppercase font-medium flex items-center justify-between">
         <span className="hidden sm:inline text-zinc-400 font-sans">DKD FASHIONS OFFICIAL</span>
-        <span className="mx-auto sm:mx-0 font-sans">Summer Sale: Up to 30% Off!</span>
+        <span className="mx-auto sm:mx-0 font-sans">Free shipping on orders over $75!</span>
         <button
           onClick={onOpenRegion}
           className="hidden sm:flex items-center gap-1.5 text-zinc-300 hover:text-white cursor-pointer uppercase"
