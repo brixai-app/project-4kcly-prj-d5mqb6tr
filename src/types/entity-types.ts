@@ -2,7 +2,7 @@
  * BRIX AI — AUTOMATICALLY GENERATED APPLICATION TYPES
  * Contract Version: 1
  * App ID: dkd-fashions
- * Contract Hash: c97516e8b98e369481054bdf752721a94420f78e2f18afdaf80574694230a078
+ * Contract Hash: 3dc61cbcd7887dcef3bb2d0ca8b38bdf09c0accccce549d92cef5869561ff92d
  * Generated deterministically from Application Data Contract.
  * DO NOT EDIT DIRECTLY.
  */

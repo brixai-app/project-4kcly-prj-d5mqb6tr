@@ -21,6 +21,7 @@ initDb().catch((err) => console.error('[server] DB init failed:', err));
 // Backend Health & Readiness Check
 app.get('/api/health', async (c) => {
   try {
+    await initDb();
     await db.execute('SELECT 1');
     return c.json({
       status: 'healthy',
@@ -47,6 +48,7 @@ app.all('/api/auth/*', (c) => {
 // Products API
 app.get('/api/products', async (c) => {
   try {
+    await initDb();
     const res = await db.execute('SELECT * FROM products');
     return c.json(res.rows);
   } catch (err: any) {
@@ -56,6 +58,7 @@ app.get('/api/products', async (c) => {
 
 app.post('/api/products', async (c) => {
   try {
+    await initDb();
     const body = await c.req.json();
     const id = body.id || ('prod-' + Math.random().toString(36).slice(2, 9));
     const name = body.name || body.title || 'Product';
@@ -96,6 +99,7 @@ app.delete('/api/products/:id', async (c) => {
 // Categories API
 app.get('/api/categories', async (c) => {
   try {
+    await initDb();
     const res = await db.execute('SELECT DISTINCT category FROM products WHERE category IS NOT NULL');
     const cats = res.rows.map((r: any) => String(r.category || (r as any)[0])).filter(Boolean);
     return c.json(cats.length > 0 ? cats : ['All', 'Tailoring', 'Women', 'Knitwear', 'Accessories']);
@@ -107,6 +111,7 @@ app.get('/api/categories', async (c) => {
 // Orders API
 app.get('/api/orders', async (c) => {
   try {
+    await initDb();
     const res = await db.execute('SELECT * FROM orders ORDER BY createdAt DESC LIMIT 50');
     return c.json(res.rows);
   } catch (err: any) {
@@ -116,6 +121,7 @@ app.get('/api/orders', async (c) => {
 
 app.post('/api/orders', async (c) => {
   try {
+    await initDb();
     const body = await c.req.json();
     const id = 'ord-' + Math.random().toString(36).slice(2, 9);
     const items = typeof body.items === 'string' ? body.items : JSON.stringify(body.items || []);

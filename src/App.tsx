@@ -37,53 +37,57 @@ export default function App() {
     }
   });
 
-  // Global Dynamic Products State with Brand-Match Guard
-  const [products, setProducts] = useState<any[]>(() => {
-    try {
-      const savedBrand = localStorage.getItem('ditris_brand_owner');
-      const savedProducts = localStorage.getItem('ditris_products');
-      if (savedBrand === currentStoreBrand && savedProducts) {
-        return JSON.parse(savedProducts);
-      }
-      return [{"id":"p1","title":"BREEZE LINEN SHIRT","displayCategory":"Tops","price":59,"imageCategory":"tops","tag":"NEW ARRIVAL","description":"Lightweight linen shirt for all-day comfort and style.","image":"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop"},{"id":"p2","title":"URBAN DENIM JACKET","displayCategory":"Outerwear","price":120,"imageCategory":"outerwear","tag":"BESTSELLER","description":"Classic denim jacket with a modern tailored fit.","image":"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800&auto=format&fit=crop"},{"id":"p3","title":"MIDNIGHT CHINO PANTS","displayCategory":"Pants","price":75,"imageCategory":"trousers","tag":"NEW ARRIVAL","description":"Sleek chinos perfect for day-to-night wear.","image":"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop"},{"id":"p4","title":"ESSENTIAL COTTON TEE","displayCategory":"Tops","price":25,"imageCategory":"tops","tag":"BASICS","description":"Soft cotton tee available in multiple colors.","image":"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=800&auto=format&fit=crop"},{"id":"p5","title":"RUSTIC LEATHER BELT","displayCategory":"Accessories","price":45,"imageCategory":"accessories","tag":"LIMITED EDITION","description":"Handcrafted leather belt with vintage finish.","image":"https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop"},{"id":"p6","title":"STREET RUNNER SNEAKERS","displayCategory":"Footwear","price":85,"imageCategory":"sneakers","tag":"POPULAR","description":"Comfortable sneakers designed for everyday wear.","image":"https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=800&auto=format&fit=crop"}];
-    } catch {
-      return [{"id":"p1","title":"BREEZE LINEN SHIRT","displayCategory":"Tops","price":59,"imageCategory":"tops","tag":"NEW ARRIVAL","description":"Lightweight linen shirt for all-day comfort and style.","image":"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop"},{"id":"p2","title":"URBAN DENIM JACKET","displayCategory":"Outerwear","price":120,"imageCategory":"outerwear","tag":"BESTSELLER","description":"Classic denim jacket with a modern tailored fit.","image":"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800&auto=format&fit=crop"},{"id":"p3","title":"MIDNIGHT CHINO PANTS","displayCategory":"Pants","price":75,"imageCategory":"trousers","tag":"NEW ARRIVAL","description":"Sleek chinos perfect for day-to-night wear.","image":"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop"},{"id":"p4","title":"ESSENTIAL COTTON TEE","displayCategory":"Tops","price":25,"imageCategory":"tops","tag":"BASICS","description":"Soft cotton tee available in multiple colors.","image":"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=800&auto=format&fit=crop"},{"id":"p5","title":"RUSTIC LEATHER BELT","displayCategory":"Accessories","price":45,"imageCategory":"accessories","tag":"LIMITED EDITION","description":"Handcrafted leather belt with vintage finish.","image":"https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop"},{"id":"p6","title":"STREET RUNNER SNEAKERS","displayCategory":"Footwear","price":85,"imageCategory":"sneakers","tag":"POPULAR","description":"Comfortable sneakers designed for everyday wear.","image":"https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=800&auto=format&fit=crop"}];
-    }
-  });
+  // Storefront Products State — Strictly Bound to SQLite API (No static/mock fallback)
+  const [products, setProducts] = useState<any[]>([]);
+  const [productsLoading, setProductsLoading] = useState(true);
+  const [productsError, setProductsError] = useState<string | null>(null);
 
   // Live Backend Products Synchronization
   useEffect(() => {
     let isMounted = true;
+    setProductsLoading(true);
     fetch('/api/products')
-      .then((res) => (res.ok ? res.json() : null))
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch products: ' + res.status + ' ' + res.statusText);
+        }
+        return res.json();
+      })
       .then((data) => {
-        if (isMounted && Array.isArray(data) && data.length > 0) {
-          const mapped = data.map((item: any) => ({
-            id: String(item.id),
-            title: item.title || item.name || 'Product',
-            name: item.name || item.title || 'Product',
-            category: String(item.category || 'FEATURED').toUpperCase(),
-            price: Number(item.price || 0),
-            image: item.image || item.imageUrl || 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80',
-            tag: item.tag || (item.featured ? 'FEATURED' : 'NEW ARRIVAL'),
-            description: item.description || '',
-          }));
-          setProducts(mapped);
+        if (isMounted) {
+          if (Array.isArray(data)) {
+            const mapped = data.map((item: any) => ({
+              id: String(item.id),
+              title: item.title || item.name || 'Product',
+              name: item.name || item.title || 'Product',
+              category: String(item.category || 'FEATURED').toUpperCase(),
+              price: Number(item.price || 0),
+              image: item.image || item.imageUrl || 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80',
+              tag: item.tag || (item.featured ? 'FEATURED' : 'NEW ARRIVAL'),
+              description: item.description || '',
+            }));
+            setProducts(mapped);
+            setProductsError(null);
+          } else {
+            setProducts([]);
+          }
         }
       })
-      .catch(() => {});
+      .catch((err) => {
+        if (isMounted) {
+          console.error('[Storefront] Products API fetch error:', err);
+          setProducts([]);
+          setProductsError(err?.message || 'Failed to load products from database');
+        }
+      })
+      .finally(() => {
+        if (isMounted) setProductsLoading(false);
+      });
     return () => { isMounted = false; };
   }, []);
 
-  useEffect(() => {
-    try {
-      localStorage.setItem('ditris_products', JSON.stringify(products));
-      localStorage.setItem('ditris_brand_owner', currentStoreBrand);
-    } catch {}
-  }, [products]);
-
   // Global Dynamic Categories State
-  const [categories, setCategories] = useState<any[]>([{"id":"c1","name":"NEW ARRIVALS","description":"NEW ARRIVALS CATEGORY","status":"VISIBLE"},{"id":"c2","name":"TOPS","description":"TOPS CATEGORY","status":"VISIBLE"},{"id":"c3","name":"OUTERWEAR","description":"OUTERWEAR CATEGORY","status":"VISIBLE"},{"id":"c4","name":"PANTS","description":"PANTS CATEGORY","status":"VISIBLE"},{"id":"c5","name":"ACCESSORIES","description":"ACCESSORIES CATEGORY","status":"VISIBLE"},{"id":"c6","name":"FOOTWEAR","description":"FOOTWEAR CATEGORY","status":"VISIBLE"}]);
+  const [categories, setCategories] = useState<any[]>([{"id":"c1","name":"JACKETS","description":"JACKETS CATEGORY","status":"VISIBLE"},{"id":"c2","name":"TEES","description":"TEES CATEGORY","status":"VISIBLE"},{"id":"c3","name":"DENIM","description":"DENIM CATEGORY","status":"VISIBLE"},{"id":"c4","name":"BAGS","description":"BAGS CATEGORY","status":"VISIBLE"},{"id":"c5","name":"SNEAKERS","description":"SNEAKERS CATEGORY","status":"VISIBLE"},{"id":"c6","name":"ACCESSORIES","description":"ACCESSORIES CATEGORY","status":"VISIBLE"}]);
 
   useEffect(() => {
     let isMounted = true;
@@ -104,7 +108,7 @@ export default function App() {
   }, []);
 
   // Global Dynamic Collections State
-  const [collections, setCollections] = useState<any[]>([{"id":"col1","title":"DKD Fashions FLAGSHIP CAPSULE","season":"PERMANENT COLLECTION","bannerImage":"https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1200&auto=format&fit=crop"},{"id":"col2","title":"DKD Fashions EDITION N° 01","season":"CURRENT SEASON","bannerImage":"https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1200&auto=format&fit=crop"}]);
+  const [collections, setCollections] = useState<any[]>([{"id":"col1","title":"DKD Fashions FLAGSHIP CAPSULE","season":"PERMANENT COLLECTION","bannerImage":"https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop"},{"id":"col2","title":"DKD Fashions EDITION N° 01","season":"CURRENT SEASON","bannerImage":"https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop"}]);
 
   // Global Dynamic Orders State with Brand-Match Guard
   const [orders, setOrders] = useState<any[]>(() => {
@@ -160,9 +164,9 @@ export default function App() {
           return parsed;
         }
       }
-      return {"brandName":"DKD Fashions","banner1":{"title":"DKD Fashions OFFICIAL","subtitle":"CATALOGUE N° 01 / EDITORIAL","image":"https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"banner2":{"title":"NEW ARRIVALS","subtitle":"NEW ARRIVALS / SEASON 24","image":"https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"announcementText":"COMPLIMENTARY WORLDWIDE EXPRESS DELIVERY ON ORDERS OVER $200"};
+      return {"brandName":"DKD Fashions","banner1":{"title":"DKD Fashions OFFICIAL","subtitle":"CATALOGUE N° 01 / EDITORIAL","image":"https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"banner2":{"title":"NEW ARRIVALS","subtitle":"NEW ARRIVALS / SEASON 24","image":"https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"announcementText":"COMPLIMENTARY WORLDWIDE EXPRESS DELIVERY ON ORDERS OVER $200"};
     } catch {
-      return {"brandName":"DKD Fashions","banner1":{"title":"DKD Fashions OFFICIAL","subtitle":"CATALOGUE N° 01 / EDITORIAL","image":"https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"banner2":{"title":"NEW ARRIVALS","subtitle":"NEW ARRIVALS / SEASON 24","image":"https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"announcementText":"COMPLIMENTARY WORLDWIDE EXPRESS DELIVERY ON ORDERS OVER $200"};
+      return {"brandName":"DKD Fashions","banner1":{"title":"DKD Fashions OFFICIAL","subtitle":"CATALOGUE N° 01 / EDITORIAL","image":"https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"banner2":{"title":"NEW ARRIVALS","subtitle":"NEW ARRIVALS / SEASON 24","image":"https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"announcementText":"COMPLIMENTARY WORLDWIDE EXPRESS DELIVERY ON ORDERS OVER $200"};
     }
   });
 

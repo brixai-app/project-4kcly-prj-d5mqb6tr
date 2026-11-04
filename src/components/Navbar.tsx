@@ -28,7 +28,7 @@ export default function Navbar({
   const navigate = useNavigate();
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
 
-  const categories = ["New Arrivals","Tops","Outerwear","Pants","Accessories","Footwear"];
+  const categories = ["JACKETS","TEES","DENIM","BAGS","SNEAKERS","ACCESSORIES"];
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-gray-200">

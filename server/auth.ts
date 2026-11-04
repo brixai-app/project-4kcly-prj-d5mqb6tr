@@ -3,7 +3,7 @@ import { memoryAdapter } from 'better-auth/adapters/memory';
 import { db } from './db';
 
 export const auth = betterAuth({
-  baseURL: typeof process !== 'undefined' && process.env?.BETTER_AUTH_URL ? process.env.BETTER_AUTH_URL : undefined,
+  baseURL: (typeof process !== 'undefined' && process.env?.BETTER_AUTH_URL) || 'http://localhost:5173',
   secret: 'brix-dev-secret-key-32-characters-long',
   trustedOrigins: [
     'http://localhost:*',
