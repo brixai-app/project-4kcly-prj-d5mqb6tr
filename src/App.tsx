@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'sonner';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CartDrawer, { CartItem } from './components/CartDrawer';
@@ -346,6 +347,7 @@ export default function App() {
   return (
     <Router>
       <div className="min-h-screen bg-white text-zinc-900 flex flex-col font-sans selection:bg-black selection:text-white">
+        <Toaster position="top-right" richColors closeButton />
         <Navbar
           cartCount={cartCount}
           wishlistCount={wishlistCount}
