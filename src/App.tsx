@@ -87,7 +87,7 @@ export default function App() {
   }, []);
 
   // Global Dynamic Categories State
-  const [categories, setCategories] = useState<any[]>([{"id":"c1","name":"JACKETS","description":"JACKETS CATEGORY","status":"VISIBLE"},{"id":"c2","name":"TEES","description":"TEES CATEGORY","status":"VISIBLE"},{"id":"c3","name":"DENIM","description":"DENIM CATEGORY","status":"VISIBLE"},{"id":"c4","name":"BAGS","description":"BAGS CATEGORY","status":"VISIBLE"},{"id":"c5","name":"SNEAKERS","description":"SNEAKERS CATEGORY","status":"VISIBLE"},{"id":"c6","name":"ACCESSORIES","description":"ACCESSORIES CATEGORY","status":"VISIBLE"}]);
+  const [categories, setCategories] = useState<any[]>([{"id":"c1","name":"JACKETS","description":"JACKETS CATEGORY","status":"VISIBLE"},{"id":"c2","name":"TEES","description":"TEES CATEGORY","status":"VISIBLE"},{"id":"c3","name":"TROUSERS","description":"TROUSERS CATEGORY","status":"VISIBLE"},{"id":"c4","name":"ACCESSORIES","description":"ACCESSORIES CATEGORY","status":"VISIBLE"},{"id":"c5","name":"FOOTWEAR","description":"FOOTWEAR CATEGORY","status":"VISIBLE"}]);
 
   useEffect(() => {
     let isMounted = true;
