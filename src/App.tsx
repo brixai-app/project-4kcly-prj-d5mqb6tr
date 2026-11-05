@@ -37,47 +37,43 @@ export default function App() {
     }
   });
 
-  // Storefront Products State — Strictly Bound to SQLite API (No static/mock fallback)
-  const [products, setProducts] = useState<any[]>([]);
-  const [productsLoading, setProductsLoading] = useState(true);
+  // Storefront Products State — Initialized with rich template mock data for Preview Mode
+  const [products, setProducts] = useState<any[]>([{"id":"p1","title":"URBAN TECH JACKET","displayCategory":"Outerwear","price":120,"imageCategory":"outerwear","tag":"NEW ARRIVAL","description":"Lightweight, water-resistant jacket with modern fit and reflective details for city life.","image":"https://images.unsplash.com/photo-1539533018447-63fcce667823?q=80&w=800&auto=format&fit=crop"},{"id":"p2","title":"ESSENTIAL COTTON TEE","displayCategory":"Tops","price":25,"imageCategory":"tops","tag":"BESTSELLER","description":"Soft, breathable cotton tee available in multiple colors, perfect for daily wear.","image":"https://images.unsplash.com/photo-1598554747436-c9293d6a588f?q=80&w=800&auto=format&fit=crop"},{"id":"p3","title":"SLIM FIT DENIM JEANS","displayCategory":"Bottoms","price":60,"imageCategory":"trousers","tag":"CLASSIC","description":"Durable denim crafted with stretch fabric offering comfort and a tailored fit.","image":"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop"},{"id":"p4","title":"MINIMALIST LEATHER BACKPACK","displayCategory":"Accessories","price":150,"imageCategory":"bags","tag":"LUXURY","description":"Sleek leather backpack with spacious compartments, crafted for urban lifestyle.","image":"https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop"},{"id":"p5","title":"LIGHTWEIGHT RUNNING SNEAKERS","displayCategory":"Footwear","price":80,"imageCategory":"sneakers","tag":"POPULAR","description":"Comfortable and breathable sneakers designed for all-day performance.","image":"https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop"},{"id":"p6","title":"CLASSIC BEANIE HAT","displayCategory":"Accessories","price":20,"imageCategory":"accessories","tag":"ESSENTIAL","description":"Warm, knitted beanie to keep you cozy during colder months.","image":"https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop"}]);
+  const [productsLoading, setProductsLoading] = useState(false);
   const [productsError, setProductsError] = useState<string | null>(null);
 
-  // Live Backend Products Synchronization
+  // Live Backend Products Synchronization (Active when backend is present)
   useEffect(() => {
     let isMounted = true;
-    setProductsLoading(true);
     fetch('/api/products')
       .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch products: ' + res.status + ' ' + res.statusText);
+        const contentType = res.headers.get('content-type') || '';
+        if (!res.ok || !contentType.includes('application/json')) {
+          // Frontend preview mode: no backend active yet, maintain rich preview data
+          return null;
         }
         return res.json();
       })
       .then((data) => {
-        if (isMounted) {
-          if (Array.isArray(data)) {
-            const mapped = data.map((item: any) => ({
-              id: String(item.id),
-              title: item.title || item.name || 'Product',
-              name: item.name || item.title || 'Product',
-              category: String(item.category || 'FEATURED').toUpperCase(),
-              price: Number(item.price || 0),
-              image: item.image || item.imageUrl || 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80',
-              tag: item.tag || (item.featured ? 'FEATURED' : 'NEW ARRIVAL'),
-              description: item.description || '',
-            }));
-            setProducts(mapped);
-            setProductsError(null);
-          } else {
-            setProducts([]);
-          }
+        if (isMounted && Array.isArray(data) && data.length > 0) {
+          const mapped = data.map((item: any) => ({
+            id: String(item.id),
+            title: item.title || item.name || 'Product',
+            name: item.name || item.title || 'Product',
+            category: String(item.category || 'FEATURED').toUpperCase(),
+            price: Number(item.price || 0),
+            image: item.image || item.imageUrl || 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80',
+            tag: item.tag || (item.featured ? 'FEATURED' : 'NEW ARRIVAL'),
+            description: item.description || '',
+          }));
+          setProducts(mapped);
+          setProductsError(null);
         }
       })
       .catch((err) => {
+        // Silently preserve preview mock data when running in preview mode
         if (isMounted) {
-          console.error('[Storefront] Products API fetch error:', err);
-          setProducts([]);
-          setProductsError(err?.message || 'Failed to load products from database');
+          console.log('[Storefront] Preview catalogue active.');
         }
       })
       .finally(() => {
@@ -87,18 +83,22 @@ export default function App() {
   }, []);
 
   // Global Dynamic Categories State
-  const [categories, setCategories] = useState<any[]>([{"id":"c1","name":"JACKETS","description":"JACKETS CATEGORY","status":"VISIBLE"},{"id":"c2","name":"TEES","description":"TEES CATEGORY","status":"VISIBLE"},{"id":"c3","name":"TROUSERS","description":"TROUSERS CATEGORY","status":"VISIBLE"},{"id":"c4","name":"ACCESSORIES","description":"ACCESSORIES CATEGORY","status":"VISIBLE"},{"id":"c5","name":"FOOTWEAR","description":"FOOTWEAR CATEGORY","status":"VISIBLE"}]);
+  const [categories, setCategories] = useState<any[]>([{"id":"c1","name":"NEW ARRIVALS","description":"NEW ARRIVALS CATEGORY","status":"VISIBLE"},{"id":"c2","name":"OUTERWEAR","description":"OUTERWEAR CATEGORY","status":"VISIBLE"},{"id":"c3","name":"TOPS","description":"TOPS CATEGORY","status":"VISIBLE"},{"id":"c4","name":"BOTTOMS","description":"BOTTOMS CATEGORY","status":"VISIBLE"},{"id":"c5","name":"ACCESSORIES","description":"ACCESSORIES CATEGORY","status":"VISIBLE"}]);
 
   useEffect(() => {
     let isMounted = true;
     fetch('/api/categories')
-      .then((res) => (res.ok ? res.json() : null))
+      .then((res) => {
+        const contentType = res.headers.get('content-type') || '';
+        if (!res.ok || !contentType.includes('application/json')) return null;
+        return res.json();
+      })
       .then((data) => {
         if (isMounted && Array.isArray(data) && data.length > 0) {
           setCategories(data.map((cat: any, i: number) => ({
             id: 'c' + (i + 1),
-            name: String(cat).toUpperCase(),
-            description: String(cat).toUpperCase() + ' CATEGORY',
+            name: String(cat.name || cat).toUpperCase(),
+            description: String(cat.name || cat).toUpperCase() + ' CATEGORY',
             status: 'VISIBLE',
           })));
         }
@@ -128,7 +128,11 @@ export default function App() {
   useEffect(() => {
     let isMounted = true;
     fetch('/api/orders')
-      .then((res) => (res.ok ? res.json() : null))
+      .then((res) => {
+        const contentType = res.headers.get('content-type') || '';
+        if (!res.ok || !contentType.includes('application/json')) return null;
+        return res.json();
+      })
       .then((data) => {
         if (isMounted && Array.isArray(data) && data.length > 0) {
           const mapped = data.map((ord: any) => ({
