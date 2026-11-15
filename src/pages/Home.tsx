@@ -22,7 +22,7 @@ export default function Home({
 }: HomeProps) {
   const navigate = useNavigate();
   const [editingBanner, setEditingBanner] = useState<'banner1' | 'banner2' | null>(null);
-  const valuePillars = [{"title":"Free Shipping","description":"Enjoy complimentary shipping on orders over $75.","icon":"truck"},{"title":"Secure Payments","description":"Shop with confidence with secure and verified payment options.","icon":"shield"},{"title":"Easy Returns","description":"Hassle-free returns within 30 days of purchase.","icon":"refresh"}];
+  const valuePillars = [{"title":"Fast Delivery","description":"Get your orders quickly with reliable shipping.","icon":"truck"},{"title":"Secure Shopping","description":"Shop confidently with our secure payment gateway.","icon":"shield"},{"title":"Easy Returns","description":"Hassle-free returns within 30 days.","icon":"refresh"}];
 
   const banner1 = siteContent?.banner1 || {
     title: 'DKD Fashions CLOTHING BRAND',
