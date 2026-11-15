@@ -28,14 +28,14 @@ export default function Navbar({
   const navigate = useNavigate();
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
 
-  const categories = ["New Arrivals","Outerwear","Tops","Bottoms","Accessories"];
+  const categories = ["New Arrivals","Tops","Bottoms","Outerwear","Accessories"];
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-gray-200">
       {/* Top Black Announcement Banner */}
       <div className="bg-black text-white px-6 py-2.5 text-center text-xs tracking-widest uppercase font-medium flex items-center justify-between">
         <span className="hidden sm:inline text-zinc-400 font-sans">DKD FASHIONS OFFICIAL</span>
-        <span className="mx-auto sm:mx-0 font-sans">Free shipping on orders over $75!</span>
+        <span className="mx-auto sm:mx-0 font-sans">Free Shipping on Orders Over $75!</span>
         <button
           onClick={onOpenRegion}
           className="hidden sm:flex items-center gap-1.5 text-zinc-300 hover:text-white cursor-pointer uppercase"

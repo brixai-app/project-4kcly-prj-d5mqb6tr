@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { Toaster } from 'sonner';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CartDrawer, { CartItem } from './components/CartDrawer';
@@ -39,7 +38,7 @@ export default function App() {
   });
 
   // Storefront Products State — Initialized with rich template mock data for Preview Mode
-  const [products, setProducts] = useState<any[]>([{"id":"p1","title":"URBAN TECH JACKET","displayCategory":"Outerwear","price":120,"imageCategory":"outerwear","tag":"NEW ARRIVAL","description":"Lightweight, water-resistant jacket with modern fit and reflective details for city life.","image":"https://images.unsplash.com/photo-1539533018447-63fcce667823?q=80&w=800&auto=format&fit=crop"},{"id":"p2","title":"ESSENTIAL COTTON TEE","displayCategory":"Tops","price":25,"imageCategory":"tops","tag":"BESTSELLER","description":"Soft, breathable cotton tee available in multiple colors, perfect for daily wear.","image":"https://images.unsplash.com/photo-1598554747436-c9293d6a588f?q=80&w=800&auto=format&fit=crop"},{"id":"p3","title":"SLIM FIT DENIM JEANS","displayCategory":"Bottoms","price":60,"imageCategory":"trousers","tag":"CLASSIC","description":"Durable denim crafted with stretch fabric offering comfort and a tailored fit.","image":"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop"},{"id":"p4","title":"MINIMALIST LEATHER BACKPACK","displayCategory":"Accessories","price":150,"imageCategory":"bags","tag":"LUXURY","description":"Sleek leather backpack with spacious compartments, crafted for urban lifestyle.","image":"https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop"},{"id":"p5","title":"LIGHTWEIGHT RUNNING SNEAKERS","displayCategory":"Footwear","price":80,"imageCategory":"sneakers","tag":"POPULAR","description":"Comfortable and breathable sneakers designed for all-day performance.","image":"https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop"},{"id":"p6","title":"CLASSIC BEANIE HAT","displayCategory":"Accessories","price":20,"imageCategory":"accessories","tag":"ESSENTIAL","description":"Warm, knitted beanie to keep you cozy during colder months.","image":"https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop"}]);
+  const [products, setProducts] = useState<any[]>([{"id":"p1","title":"ARCHITECTURAL TRENCH COAT","displayCategory":"OUTERWEAR","price":180,"imageCategory":"outerwear","tag":"NEW ARRIVAL","description":"Elevate your look with this modern trench coat, crafted to combine functionality and style for any season.","image":"https://images.unsplash.com/photo-1539533018447-63fcce667823?q=80&w=800&auto=format&fit=crop"},{"id":"p2","title":"EVERYDAY COMFY HOODIE","displayCategory":"TOPS","price":55,"imageCategory":"tops","tag":"BESTSELLER","description":"Made from ultra-soft fabric, this hoodie promises comfort and warmth with a sleek fit.","image":"https://images.unsplash.com/photo-1598554747436-c9293d6a588f?q=80&w=800&auto=format&fit=crop"},{"id":"p3","title":"SLIM FIT DENIM JEANS","displayCategory":"BOTTOMS","price":75,"imageCategory":"trousers","tag":"BESTSELLER","description":"These jeans provide a flattering slim fit that moves with you, crafted from premium denim.","image":"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop"},{"id":"p4","title":"MINIMALIST LEATHER BACKPACK","displayCategory":"ACCESSORIES","price":120,"imageCategory":"bags","tag":"NEW ARRIVAL","description":"This versatile leather backpack combines elegance with practicality for daily essentials.","image":"https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop"},{"id":"p5","title":"CLASSIC CANVAS SNEAKERS","displayCategory":"FOOTWEAR","price":60,"imageCategory":"sneakers","tag":"NEW ARRIVAL","description":"Lightweight canvas sneakers with timeless design perfect for everyday wear.","image":"https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop"},{"id":"p6","title":"ESSENTIAL COTTON T-SHIRT","displayCategory":"TOPS","price":25,"imageCategory":"tops","tag":"","description":"A wardrobe must-have tee offering supreme softness and a flattering fit.","image":"https://images.unsplash.com/photo-1598554747436-c9293d6a588f?q=80&w=800&auto=format&fit=crop"}]);
   const [productsLoading, setProductsLoading] = useState(false);
   const [productsError, setProductsError] = useState<string | null>(null);
 
@@ -84,7 +83,7 @@ export default function App() {
   }, []);
 
   // Global Dynamic Categories State
-  const [categories, setCategories] = useState<any[]>([{"id":"c1","name":"NEW ARRIVALS","description":"NEW ARRIVALS CATEGORY","status":"VISIBLE"},{"id":"c2","name":"OUTERWEAR","description":"OUTERWEAR CATEGORY","status":"VISIBLE"},{"id":"c3","name":"TOPS","description":"TOPS CATEGORY","status":"VISIBLE"},{"id":"c4","name":"BOTTOMS","description":"BOTTOMS CATEGORY","status":"VISIBLE"},{"id":"c5","name":"ACCESSORIES","description":"ACCESSORIES CATEGORY","status":"VISIBLE"}]);
+  const [categories, setCategories] = useState<any[]>([{"id":"c1","name":"NEW ARRIVALS","description":"NEW ARRIVALS CATEGORY","status":"VISIBLE"},{"id":"c2","name":"TOPS","description":"TOPS CATEGORY","status":"VISIBLE"},{"id":"c3","name":"BOTTOMS","description":"BOTTOMS CATEGORY","status":"VISIBLE"},{"id":"c4","name":"OUTERWEAR","description":"OUTERWEAR CATEGORY","status":"VISIBLE"},{"id":"c5","name":"ACCESSORIES","description":"ACCESSORIES CATEGORY","status":"VISIBLE"}]);
 
   useEffect(() => {
     let isMounted = true;
@@ -109,7 +108,7 @@ export default function App() {
   }, []);
 
   // Global Dynamic Collections State
-  const [collections, setCollections] = useState<any[]>([{"id":"col1","title":"DKD Fashions FLAGSHIP CAPSULE","season":"PERMANENT COLLECTION","bannerImage":"https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop"},{"id":"col2","title":"DKD Fashions EDITION N° 01","season":"CURRENT SEASON","bannerImage":"https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop"}]);
+  const [collections, setCollections] = useState<any[]>([{"id":"col1","title":"DKD Fashions FLAGSHIP CAPSULE","season":"PERMANENT COLLECTION","bannerImage":"https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1200&auto=format&fit=crop"},{"id":"col2","title":"DKD Fashions EDITION N° 01","season":"CURRENT SEASON","bannerImage":"https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1200&auto=format&fit=crop"}]);
 
   // Global Dynamic Orders State with Brand-Match Guard
   const [orders, setOrders] = useState<any[]>(() => {
@@ -169,9 +168,9 @@ export default function App() {
           return parsed;
         }
       }
-      return {"brandName":"DKD Fashions","banner1":{"title":"DKD Fashions OFFICIAL","subtitle":"CATALOGUE N° 01 / EDITORIAL","image":"https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"banner2":{"title":"NEW ARRIVALS","subtitle":"NEW ARRIVALS / SEASON 24","image":"https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"announcementText":"COMPLIMENTARY WORLDWIDE EXPRESS DELIVERY ON ORDERS OVER $200"};
+      return {"brandName":"DKD Fashions","banner1":{"title":"DKD Fashions OFFICIAL","subtitle":"CATALOGUE N° 01 / EDITORIAL","image":"https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"banner2":{"title":"NEW ARRIVALS","subtitle":"NEW ARRIVALS / SEASON 24","image":"https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"announcementText":"COMPLIMENTARY WORLDWIDE EXPRESS DELIVERY ON ORDERS OVER $200"};
     } catch {
-      return {"brandName":"DKD Fashions","banner1":{"title":"DKD Fashions OFFICIAL","subtitle":"CATALOGUE N° 01 / EDITORIAL","image":"https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"banner2":{"title":"NEW ARRIVALS","subtitle":"NEW ARRIVALS / SEASON 24","image":"https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"announcementText":"COMPLIMENTARY WORLDWIDE EXPRESS DELIVERY ON ORDERS OVER $200"};
+      return {"brandName":"DKD Fashions","banner1":{"title":"DKD Fashions OFFICIAL","subtitle":"CATALOGUE N° 01 / EDITORIAL","image":"https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"banner2":{"title":"NEW ARRIVALS","subtitle":"NEW ARRIVALS / SEASON 24","image":"https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1200&auto=format&fit=crop","ctaText":"SHOP NOW"},"announcementText":"COMPLIMENTARY WORLDWIDE EXPRESS DELIVERY ON ORDERS OVER $200"};
     }
   });
 
@@ -347,7 +346,6 @@ export default function App() {
   return (
     <Router>
       <div className="min-h-screen bg-white text-zinc-900 flex flex-col font-sans selection:bg-black selection:text-white">
-        <Toaster position="top-right" richColors closeButton />
         <Navbar
           cartCount={cartCount}
           wishlistCount={wishlistCount}
