@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { BrixDataProvider } from './providers/BrixDataProvider';
-import './lib/brix-data/preview-snapshot';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CartDrawer, { CartItem } from './components/CartDrawer';
@@ -40,7 +38,7 @@ export default function App() {
   });
 
   // Storefront Products State — Initialized with rich template mock data for Preview Mode
-  const [products, setProducts] = useState<any[]>([{"tag":"NEW ARRIVAL","price":120,"displayCategory":"Outerwear","title":"URBAN CHIC JACKET","image":"https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=800&auto=format&fit=crop","description":"Lightweight and breathable jacket designed for all seasons and urban adventures.","imageCategory":"outerwear","id":"p1"},{"imageCategory":"trousers","displayCategory":"Trousers","description":"Timeless denim with a perfect fit and durable stitching for everyday wear.","tag":"BESTSELLER","image":"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=800&auto=format&fit=crop","title":"CLASSIC DENIM JEANS","id":"p2","price":80},{"price":150,"image":"https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?q=80&w=800&auto=format&fit=crop","description":"High-quality leather boots combining style and comfort for city life.","id":"p3","title":"SLEEK LEATHER BOOTS","displayCategory":"Footwear","imageCategory":"boots","tag":"NEW ARRIVAL"},{"image":"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=800&auto=format&fit=crop","title":"CASUAL COTTON TEE","id":"p4","price":35,"description":"Soft cotton tee crafted for ultimate comfort and casual style.","imageCategory":"tops","tag":"BESTSELLER","displayCategory":"Tops"},{"displayCategory":"Tops","price":60,"id":"p5","image":"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop","description":"Retro-inspired hoodie with a cozy fit ideal for cooler days.","title":"VINTAGE HOODED SWEATSHIRT","imageCategory":"tops","tag":"NEW ARRIVAL"},{"title":"MINIMALIST LEATHER BAG","id":"p6","image":"https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=800&auto=format&fit=crop","description":"Sleek leather bag designed for daily essentials with an elegant silhouette.","price":130,"tag":"BESTSELLER","imageCategory":"bags","displayCategory":"Accessories"}]);
+  const [products, setProducts] = useState<any[]>([{"id":"p1","title":"URBAN CHIC DENIM JACKET","displayCategory":"OUTERWEAR","price":120,"imageCategory":"outerwear","tag":"BESTSELLER","description":"A versatile denim jacket with a modern fit for day and night wear.","image":"https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=800&auto=format&fit=crop"},{"id":"p2","title":"ESSENTIAL WHITE T-SHIRT","displayCategory":"TOPS","price":25,"imageCategory":"tops","tag":"NEW ARRIVAL","description":"Soft, breathable fabric perfect for layering or standalone style.","image":"https://images.unsplash.com/photo-1598554747436-c9293d6a588f?q=80&w=800&auto=format&fit=crop"},{"id":"p3","title":"SLIM FIT CARGO PANTS","displayCategory":"BOTTOMS","price":60,"imageCategory":"trousers","tag":"TRENDING","description":"Durable and stylish cargo pants with multiple pockets for convenience.","image":"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop"},{"id":"p4","title":"CLASSIC LEATHER SNEAKERS","displayCategory":"FOOTWEAR","price":85,"imageCategory":"footwear","tag":"BESTSELLER","description":"Comfort and style combined in these timeless sneakers.","image":"https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=800&auto=format&fit=crop"},{"id":"p5","title":"UTILITY HOODED SWEATSHIRT","displayCategory":"TOPS","price":50,"imageCategory":"tops","tag":"SALE","description":"Warm and cozy hoodie crafted for everyday comfort and street style.","image":"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop"},{"id":"p6","title":"MINIMALIST BACKPACK","displayCategory":"ACCESSORIES","price":70,"imageCategory":"bags","tag":"NEW ARRIVAL","description":"Sleek and functional backpack to carry essentials with ease.","image":"https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=800&auto=format&fit=crop"}]);
   const [productsLoading, setProductsLoading] = useState(false);
   const [productsError, setProductsError] = useState<string | null>(null);
 
@@ -85,7 +83,7 @@ export default function App() {
   }, []);
 
   // Global Dynamic Categories State
-  const [categories, setCategories] = useState<any[]>([{"id":"c1","name":"NEW ARRIVALS","description":"NEW ARRIVALS CATEGORY","status":"VISIBLE"},{"id":"c2","name":"JACKETS","description":"JACKETS CATEGORY","status":"VISIBLE"},{"id":"c3","name":"JEANS","description":"JEANS CATEGORY","status":"VISIBLE"},{"id":"c4","name":"T-SHIRTS","description":"T-SHIRTS CATEGORY","status":"VISIBLE"},{"id":"c5","name":"BOOTS","description":"BOOTS CATEGORY","status":"VISIBLE"},{"id":"c6","name":"ACCESSORIES","description":"ACCESSORIES CATEGORY","status":"VISIBLE"}]);
+  const [categories, setCategories] = useState<any[]>([{"id":"c1","name":"NEW ARRIVALS","description":"NEW ARRIVALS CATEGORY","status":"VISIBLE"},{"id":"c2","name":"TOPS","description":"TOPS CATEGORY","status":"VISIBLE"},{"id":"c3","name":"OUTERWEAR","description":"OUTERWEAR CATEGORY","status":"VISIBLE"},{"id":"c4","name":"BOTTOMS","description":"BOTTOMS CATEGORY","status":"VISIBLE"},{"id":"c5","name":"ACCESSORIES","description":"ACCESSORIES CATEGORY","status":"VISIBLE"},{"id":"c6","name":"FOOTWEAR","description":"FOOTWEAR CATEGORY","status":"VISIBLE"}]);
 
   useEffect(() => {
     let isMounted = true;
@@ -346,8 +344,7 @@ export default function App() {
   const wishlistIds = wishlistItems.map(i => i.id);
 
   return (
-    <BrixDataProvider>
-      <Router>
+    <Router>
       <div className="min-h-screen bg-white text-zinc-900 flex flex-col font-sans selection:bg-black selection:text-white">
         <Navbar
           cartCount={cartCount}
@@ -500,6 +497,5 @@ export default function App() {
         />
       </div>
     </Router>
-  </BrixDataProvider>
   );
 }
