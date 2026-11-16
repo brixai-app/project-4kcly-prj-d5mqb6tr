@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrixDataProvider } from './providers/BrixDataProvider';
+import './lib/brix-data/preview-snapshot';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CartDrawer, { CartItem } from './components/CartDrawer';
@@ -38,7 +40,7 @@ export default function App() {
   });
 
   // Storefront Products State — Initialized with rich template mock data for Preview Mode
-  const [products, setProducts] = useState<any[]>([{"id":"p1","title":"URBAN ATHLETIC JACKET","displayCategory":"OUTERWEAR","price":120,"imageCategory":"outerwear","tag":"BESTSELLER","description":"A lightweight jacket designed for comfortable movement and style.","image":"https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=800&auto=format&fit=crop"},{"id":"p2","title":"CLASSIC DENIM JEANS","displayCategory":"TROUSERS","price":75,"imageCategory":"trousers","tag":"NEW ARRIVAL","description":"Timeless denim crafted for durability and comfort with every wear.","image":"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=800&auto=format&fit=crop"},{"id":"p3","title":"ECO-FRIENDLY HOODIE","displayCategory":"SWEATSHIRTS","price":60,"imageCategory":"tops","tag":"SUSTAINABLE","description":"Soft, sustainable hoodie made from recycled materials for eco-conscious fashion.","image":"https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=800&auto=format&fit=crop"},{"id":"p4","title":"MINIMALIST LEATHER BACKPACK","displayCategory":"BAGS","price":150,"imageCategory":"bags","tag":"LIMITED EDITION","description":"Sleek, functional backpack made with premium leather for everyday use.","image":"https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop"},{"id":"p5","title":"URBAN STREET SNEAKERS","displayCategory":"FOOTWEAR","price":90,"imageCategory":"sneakers","tag":"TRENDING","description":"Comfortable sneakers with a modern streetwear aesthetic.","image":"https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop"},{"id":"p6","title":"FASHION STATEMENT WATCH","displayCategory":"ACCESSORIES","price":200,"imageCategory":"accessories","tag":"EXCLUSIVE","description":"Sophisticated, minimal watch to complete any look.","image":"https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop"}]);
+  const [products, setProducts] = useState<any[]>([{"image":"https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=800&auto=format&fit=crop","title":"URBAN DENIM JACKET","displayCategory":"Outerwear","description":"Classic fit denim jacket with a timeless look and modern washed finish perfect for any season.","imageCategory":"outerwear","id":"p1","tag":"BESTSELLER","price":120},{"price":25,"description":"Soft, breathable 100% cotton t-shirt available in multiple colors for everyday comfort.","imageCategory":"tops","title":"ESSENTIAL COTTON T-SHIRT","id":"p2","tag":"NEW ARRIVAL","displayCategory":"Tops","image":"https://images.unsplash.com/photo-1598554747436-c9293d6a588f?q=80&w=800&auto=format&fit=crop"},{"description":"Modern slim cut chinos with stretch fabric for ultimate comfort and style versatility.","id":"p3","price":60,"image":"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop","tag":"TRENDING","displayCategory":"Bottoms","imageCategory":"trousers","title":"SLIM FIT CHINOS"},{"imageCategory":"bags","price":150,"image":"https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop","displayCategory":"Accessories","title":"MINIMALIST LEATHER BACKPACK","id":"p4","tag":"LIMITED EDITION","description":"Premium durable leather backpack designed for everyday essentials with minimalist style."},{"description":"Bold design chunky sole sneakers providing both comfort and street style for daily wear.","tag":"BESTSELLER","title":"CHUNKY SOLE SNEAKERS","id":"p5","image":"https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop","imageCategory":"sneakers","price":85,"displayCategory":"Footwear"},{"price":20,"tag":"","id":"p6","displayCategory":"Accessories","imageCategory":"accessories","title":"UNISEX BEANIE HAT","description":"Cozy and stylish unisex beanie that pairs perfectly with any casual outfit.","image":"https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop"}]);
   const [productsLoading, setProductsLoading] = useState(false);
   const [productsError, setProductsError] = useState<string | null>(null);
 
@@ -83,7 +85,7 @@ export default function App() {
   }, []);
 
   // Global Dynamic Categories State
-  const [categories, setCategories] = useState<any[]>([{"id":"c1","name":"OUTERWEAR","description":"OUTERWEAR CATEGORY","status":"VISIBLE"},{"id":"c2","name":"TOPS","description":"TOPS CATEGORY","status":"VISIBLE"},{"id":"c3","name":"JEANS","description":"JEANS CATEGORY","status":"VISIBLE"},{"id":"c4","name":"ACCESSORIES","description":"ACCESSORIES CATEGORY","status":"VISIBLE"},{"id":"c5","name":"SWEATSHIRTS","description":"SWEATSHIRTS CATEGORY","status":"VISIBLE"},{"id":"c6","name":"BAGS","description":"BAGS CATEGORY","status":"VISIBLE"}]);
+  const [categories, setCategories] = useState<any[]>([{"id":"c1","name":"NEW ARRIVALS","description":"NEW ARRIVALS CATEGORY","status":"VISIBLE"},{"id":"c2","name":"TOPS","description":"TOPS CATEGORY","status":"VISIBLE"},{"id":"c3","name":"OUTERWEAR","description":"OUTERWEAR CATEGORY","status":"VISIBLE"},{"id":"c4","name":"BOTTOMS","description":"BOTTOMS CATEGORY","status":"VISIBLE"},{"id":"c5","name":"ACCESSORIES","description":"ACCESSORIES CATEGORY","status":"VISIBLE"},{"id":"c6","name":"FOOTWEAR","description":"FOOTWEAR CATEGORY","status":"VISIBLE"}]);
 
   useEffect(() => {
     let isMounted = true;
@@ -344,7 +346,8 @@ export default function App() {
   const wishlistIds = wishlistItems.map(i => i.id);
 
   return (
-    <Router>
+    <BrixDataProvider>
+      <Router>
       <div className="min-h-screen bg-white text-zinc-900 flex flex-col font-sans selection:bg-black selection:text-white">
         <Navbar
           cartCount={cartCount}
@@ -497,5 +500,6 @@ export default function App() {
         />
       </div>
     </Router>
+  </BrixDataProvider>
   );
 }
