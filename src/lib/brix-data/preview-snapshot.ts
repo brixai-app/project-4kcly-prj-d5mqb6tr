@@ -10,27 +10,18 @@ export type PreviewSnapshotMeta = {
 export type PreviewSnapshotRecord = {
   id: string;
   name: string;
-  slug: string;
   category: string;
   price: number;
-  compareAtPrice?: number;
   image: string;
-  images?: string[];
+  rating: number;
+  reviews: number;
   featured?: boolean;
-  inStock?: boolean;
-  rating?: number;
-  reviewCount?: number;
   tags?: string[];
-  colors?: string[];
-  sizes?: string[];
-  description?: string;
 };
 
 export type PreviewSnapshot = {
   meta: PreviewSnapshotMeta;
   products: PreviewSnapshotRecord[];
-  categories: string[];
-  collections: string[];
 };
 
 const now = new Date().toISOString();
@@ -39,106 +30,77 @@ export const previewSnapshot: PreviewSnapshot = {
   meta: {
     id: 'preview-snapshot-dkd-fashions',
     title: 'DKD Fashions Preview Snapshot',
-    description: 'A lightweight in-memory snapshot used to bootstrap the app during preview and development.',
+    description:
+      'A lightweight preview dataset used to bootstrap the app when live Brix data is unavailable.',
     createdAt: now,
     updatedAt: now,
     version: '1.0.0',
   },
-  categories: ['New Arrivals', 'Women', 'Men', 'Accessories', 'Footwear'],
-  collections: ['Summer Edit', 'Best Sellers', 'Essentials', 'Party Wear'],
   products: [
     {
       id: 'prd-001',
-      name: 'Elegant Linen Co-ord Set',
-      slug: 'elegant-linen-coord-set',
-      category: 'Women',
-      price: 89.99,
-      compareAtPrice: 119.99,
-      image: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80',
-      images: [
-        'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80',
-      ],
-      featured: true,
-      inStock: true,
+      name: 'Classic Linen Shirt',
+      category: 'Tops',
+      price: 49.99,
+      image:
+        'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80',
       rating: 4.8,
-      reviewCount: 124,
-      tags: ['linen', 'summer', 'co-ord'],
-      colors: ['Ivory', 'Sand'],
-      sizes: ['XS', 'S', 'M', 'L'],
-      description: 'A breathable linen co-ord set designed for effortless everyday elegance.',
+      reviews: 124,
+      featured: true,
+      tags: ['linen', 'summer', 'best-seller'],
     },
     {
       id: 'prd-002',
-      name: 'Classic Tailored Shirt',
-      slug: 'classic-tailored-shirt',
-      category: 'Men',
-      price: 54.0,
-      image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1200&q=80',
-      featured: true,
-      inStock: true,
+      name: 'Tailored Wide-Leg Trousers',
+      category: 'Bottoms',
+      price: 69.0,
+      image:
+        'https://images.unsplash.com/photo-1506629905607-d9b0b8f6b0f0?auto=format&fit=crop&w=900&q=80',
       rating: 4.6,
-      reviewCount: 89,
-      tags: ['shirt', 'formal', 'cotton'],
-      colors: ['White', 'Sky Blue', 'Navy'],
-      sizes: ['S', 'M', 'L', 'XL'],
-      description: 'A crisp tailored shirt with a modern fit for work and weekend wear.',
+      reviews: 88,
+      featured: true,
+      tags: ['tailored', 'office', 'minimal'],
     },
     {
       id: 'prd-003',
-      name: 'Minimal Leather Tote',
-      slug: 'minimal-leather-tote',
+      name: 'Everyday Crossbody Bag',
       category: 'Accessories',
-      price: 74.5,
-      compareAtPrice: 92.0,
-      image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=1200&q=80',
-      inStock: true,
-      rating: 4.9,
-      reviewCount: 41,
-      tags: ['bag', 'leather', 'tote'],
-      colors: ['Black', 'Tan'],
-      description: 'A versatile tote with clean lines and premium finish.',
+      price: 39.5,
+      image:
+        'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80',
+      rating: 4.7,
+      reviews: 203,
+      tags: ['bag', 'daily', 'compact'],
     },
     {
       id: 'prd-004',
-      name: 'Everyday Sneakers',
-      slug: 'everyday-sneakers',
-      category: 'Footwear',
-      price: 68.0,
-      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80',
-      inStock: false,
-      rating: 4.4,
-      reviewCount: 203,
-      tags: ['sneakers', 'casual', 'comfort'],
-      colors: ['White', 'Grey'],
-      sizes: ['7', '8', '9', '10', '11'],
-      description: 'Comfort-first sneakers built for all-day wear.',
+      name: 'Relaxed Knit Dress',
+      category: 'Dresses',
+      price: 84.99,
+      image:
+        'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80',
+      rating: 4.9,
+      reviews: 67,
+      featured: true,
+      tags: ['knit', 'elegant', 'seasonal'],
     },
   ],
 };
 
-export function getPreviewSnapshot(): PreviewSnapshot {
-  return previewSnapshot;
-}
-
 export function getPreviewProducts(): PreviewSnapshotRecord[] {
   return previewSnapshot.products.slice();
-}
-
-export function getPreviewProductBySlug(slug: string): PreviewSnapshotRecord | undefined {
-  return previewSnapshot.products.find((product) => product.slug === slug);
 }
 
 export function getPreviewProductById(id: string): PreviewSnapshotRecord | undefined {
   return previewSnapshot.products.find((product) => product.id === id);
 }
 
-export function getPreviewCategories(): string[] {
-  return previewSnapshot.categories.slice();
+export function getPreviewFeaturedProducts(): PreviewSnapshotRecord[] {
+  return previewSnapshot.products.filter((product) => product.featured);
 }
 
-export function getPreviewCollections(): string[] {
-  return previewSnapshot.collections.slice();
+export function getPreviewSnapshotMeta(): PreviewSnapshotMeta {
+  return previewSnapshot.meta;
 }
 
 export default previewSnapshot;
