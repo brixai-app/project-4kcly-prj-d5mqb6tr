@@ -10,7 +10,7 @@ interface SearchOverlayProps {
 export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const searchSuggestions = ["denim jacket","white t-shirt","cargo pants","leather sneakers","backpack"];
+  const searchSuggestions = ["bomber jackets","slim fit jeans","cotton t-shirts","leather backpacks","knit beanies"];
 
   if (!isOpen) return null;
 

@@ -22,19 +22,19 @@ export default function Home({
 }: HomeProps) {
   const navigate = useNavigate();
   const [editingBanner, setEditingBanner] = useState<'banner1' | 'banner2' | null>(null);
-  const valuePillars = [{"icon":"truck","description":"Get your items quickly with reliable delivery.","title":"Fast Shipping"},{"icon":"shield","title":"Secure Payments","description":"Shop safely with trusted payment options."},{"title":"Easy Returns","icon":"refresh","description":"Hassle-free returns within 30 days."}];
+  const valuePillars = [{"title":"Fast Delivery","description":"Get your orders in record time with our speedy shipping.","icon":"truck"},{"title":"Secure Shopping","description":"Your data and payments are protected with top security.","icon":"shield"},{"title":"Easy Returns","description":"Hassle-free returns to ensure complete satisfaction.","icon":"refresh"}];
 
   const banner1 = siteContent?.banner1 || {
     title: 'DKD Fashions CLOTHING BRAND',
     subtitle: 'CATALOGUE N° 01 / EDITORIAL',
-    image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1200&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop',
     ctaText: 'SHOP NOW',
   };
 
   const banner2 = siteContent?.banner2 || {
     title: 'NEW ARRIVALS',
     subtitle: 'NEW ARRIVALS / SEASON 24',
-    image: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1200&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop',
     ctaText: 'SHOP NOW',
   };
 
@@ -138,7 +138,7 @@ export default function Home({
             FEATURED PRODUCTS
           </h2>
           <p className="text-xs uppercase tracking-widest text-zinc-500 font-sans">
-            Style Perfected
+            Wear Your Confidence
           </p>
         </div>
 
